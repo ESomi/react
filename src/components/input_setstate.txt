@@ -1,0 +1,64 @@
+reactjs  code snippet 설치
+ - rcc  : 클래스 형태의 컴포넌트 포맷 입력됨
+ - rsc :  함수형 컴포넌트 포맷 입력됨
+
+input의 상태 관리하기
+1. 상태 정의하기
+state { }
+
+안에 name이라는 값 넣어주기
+
+name: '',
+
+2. input에서 변경 이벤트 발생 시 처리할 함수 만들기
+handleChange = (e) => {}
+
+e 라는  객체(이벤트 객체)를 파라미터로 받아온다.
+
+(이벤트 객체를 통해 앞으로 어떻게 수정할 건 지 알 수 있다.)
+
+어떤 처리: setState를 통해서 name값 설정
+this.setState({}) 안에
+
+name: e.target.value  <- 앞으로  바뀔 값이 들어 있음
+
+e.target(이벤트 객체의 타겟)은 input
+
+e.target.value은 이벤트가 발생했을 때 input이 가지고 있는 밸류값
+
+3. input 태그 안에
+onChange 속성값 설정하기
+onChange = {this.handleChange}
+
+input 에서 값이 바뀔 때마다, handleChange 함수가 실행되어 name값이 바뀜
+
+value 속성값 넣어주기
+value = {this.state.name}
+
+폼 안에 입력값 바로 나타게하기
+{this.state.name}
+
+여러 개 input 만들었을 때 상태 관리하기
+1. placeholder 속성과 name속성 추가하여 구분하기
+* placeholder: 아무것도 입력하지 않았을 때 기본적으로 보여주는 값)
+
+2. 두번째 input에 onChnage속성과 value속성 추가하기
+3. handleChange의 setState 객체 속성 변경
+기존 속성 name(변수명) 대신
+
+[e.target.name]으로 변경
+
+* input의 name값
+
+cf. 값이 제대로 나타나는지 확인하기
+
+form안에 <div>만들고
+
+{this.state.name} {this.state.phone}
+
+<- 입력창에 입력한 값이 바로 밑에 나타남
+
+
+
+
+
