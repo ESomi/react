@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PhoneForm from './components/PhoneForm';
 
 class App extends Component {
-  render() {
+  render() {     
     return (
       <div>
         <PhoneForm />
