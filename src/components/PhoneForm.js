@@ -13,13 +13,22 @@ class PhoneForm extends Component {
          });
     }
 
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.onCreate(this.state);
+        this.setState({
+            name: '',
+            phone: '',
+        })
+    }
+
     render() {
         return (
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <input name="name" placeholder="이름" onChange={this.handleChange} value={this.state.name} />
-                <input name="phone" placeholder="전화번호" onChange={this.handleChange} value={this.state.phone}  />
-                <div>{this.state.name} {this.state.phone}</div>
-            </form>
+                <input name="phone" placeholder="전화번호" onChange={this.handleChange} value={this.state.phone}  /> 
+                <button type="submit">등록</button>
+             </form>
         );
     }  
 }   

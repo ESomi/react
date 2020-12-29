@@ -1,0 +1,138 @@
+자식 컴포넌트가 부모한테 값 전달하기
+(name과 phone 입력창에 입력한 값이 App.js의 data로 들어가도록 하기)
+
+부모 컴포넌트(App.js)에서는
+handleCreate라는 메소드를 만들고
+
+*handleCreate() - 받은 매개변수를 콘솔에 표시하는 함수로 정의
+
+그 메소드를 자식 컴포넌트에 props로 전달한다
+
+<PhoneForm onCreate={this.handleCreate} />
+
+
+
+자식 컴포넌트(PhoneForm.js)에서는
+1. submit버튼 생성
+
+2. submit버튼 기본기능을 삭제하는 하는 함수 정의
+
+(submit버튼 클릭 시 자동으로 새로고침 되는 기능)
+
+handleSubmit = (e) => {
+
+ e.preventDefault();
+
+}
+
+이 handleSubmit함수를 <form>의onSubmit속성의 속성값으로 추가
+
+<form onSubmit={this.handleSubmit}>
+
+3. props로 전달한 함수 호출하기
+
+submit버튼을 누르면 props로 전달한 onCreate 함수를 호출 시켜서
+
+이 data값이 부모 컴포넌트(App .js)에 들어가도록 한다.
+
+this.props.onCreate   <-{this.handleCreate} 
+
+handleCreate함수는 받은 매개변수를 콘솔에 표시하는 기능을 하므로 매개변수를 넣어준다.
+
+{name: this.state.name,
+
+phone: this.state.phone}
+
+또는 this.state  <- 편의 상 이렇게 해도 상관없음
+====================================================================
+배열에 데이터 삽입하기
+(App.js가 받아 온 data를 App 안에 있는 상태에다가 담아 주어야 한다.)
+
+App.js에서
+
+1. state 정의 :   handleCreate가 발생하면 전화번호부 정보들(data : name과 phone)을 information이라는 배열에 넣어주도록 한다.
+
+state = { information: [], }
+
+handleCreate = (data) => {
+
+this.state.information.push(data);   X
+
+this.setState({this.state.information)}  X
+
+this.setState({this.state.information.concat(data)})
+
+}
+
+* 리엑트에서는 항상 불변성을 유지해 주어야 한다.
+
+어떤 값을 수정하게 될 때 에는 언제나 setstate를 사용해야 하고, 
+
+그 내부에 있는 배열이나 객체를 바꾸게 될 때는 기존의 배열이나 객체를 수정하지 않고, 새로운 배열이나 객체를 만들어서 값을 주입해 주어야 한다.
+
+->concat이라는 배열 내장함수 사용
+
+cf. 배열에 주입한 값(information 값)을 문자열 형태로 변환해서 보여주기
+
+{JSON.stringify(this.state.information)}
+====================================================================
+기타 처리
+
+1. 비구조화 할당으로 코드 간략히
+
+(App.js의 handleCreate 함수에서)
+
+const {information} = this.state; (정의 추가)
+
+    (state = {information: []} 로 정의되어 있음)
+
+this.state.information 대신 information
+
+2. submit 버튼 클릭 시 input의 입력값들 초기화하기
+
+(PhondForm.js의 handleSubmit 함수에서)
+
+this.setState({
+
+    name: '',
+    phone: '',
+
+})
+
+3. 임시 코드 삭제
+
+(PhoneForm.js의 <form>안)
+
+{this.state.name} {this.state.phone} 삭제
+
+====================================================================
+추가한 데이터에 id값 넣어주기
+id=0으로 정의
+
+data자리에
+
+{...data,
+
+id: this.id++
+
+}
+
+cf. 다른 방법들
+
+{name: data.name,
+
+phone: dat.phone,
+
+id: this.id++
+
+}
+
+Object.assign({}, data, {
+
+  id: this.id++
+
+})
+
+
+
+
