@@ -36,7 +36,7 @@ value 속성값 넣어주기
 value = {this.state.name}
 
 폼 안에 입력값 바로 나타게하기
-{this.state.name}
+{this.state.name}  {this.state.phone}
 
 여러 개 input 만들었을 때 상태 관리하기
 1. placeholder 속성과 name속성 추가하여 구분하기
@@ -50,13 +50,7 @@ value = {this.state.name}
 
 * input의 name값
 
-cf. 값이 제대로 나타나는지 확인하기
 
-form안에 <div>만들고
-
-{this.state.name} {this.state.phone}
-
-<- 입력창에 입력한 값이 바로 밑에 나타남
 
 
 
