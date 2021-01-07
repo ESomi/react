@@ -83,13 +83,13 @@ class App extends Component {
           />
         <PhoneInfoList 
           data={this.state.information.filter(
-            info => info.name.indexOf(this.state.keyword) > -1
+            info => info.name.indexOf(this.state.keyword) > -1 
           )}
           onRemove={this.handleRemove}
           onUpdate={this.handleUpdate}
         />
         { JSON.stringify(this.state) }
-      </div>
+      </div> 
     );
   }
 }
