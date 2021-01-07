@@ -5,19 +5,36 @@ import PhoneInfoList from './components/PhoneInfoList';
 
 class App extends Component {
 
-  id = 0;
+  id = 3;
   
   state = {
-    information: [],
+    information: [
+      {
+        id: 0,
+        name: '로제스',
+        phone: '010-000-0001'
+      },
+      {
+        id: 1,
+        name: '홍당무',
+        phone: '010-000-0002'
+      },
+      {
+        id: 2,
+        name: '잎새달',
+        phone: '010-000-0003'
+      },
+    ],
   }
 
-  handleCreate = (data) => {
+  handleCreate = (data) => { 
     const {information} = this.state
     this.setState({
       information: information.concat({
-        ...data,
-        id: this.id++
-      })
+        ...data, // PhoneFrom.js에서 받은 { name: 'a', phone: '1',},
+        id: this.id++ // id: 0 을 객체에 넣은 후 1 증가
+      }) 
+      //->information: [{ name: 'a', phone: '1', id: 0,}]
     });
   }
 
@@ -56,6 +73,7 @@ class App extends Component {
           onRemove={this.handleRemove}
           onUpdate={this.handleUpdate}
         />
+        { JSON.stringify(this.state) }
       </div>
     );
   }

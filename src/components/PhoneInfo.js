@@ -8,37 +8,47 @@ class PhoneInfo extends Component {
         phone: '',
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state !== nextState) {
+            return true;
+        }
+        return this.props.info !== nextProps.info;
+    }
+    
+
     handleRemove = () => {
         const { info, onRemove } = this.props;
         onRemove(info.id);
     }
 
-    handleToggleEdit = () => {
-        // true -> false
-          // onUpdate
-        // false -> true
-          // state에 info 값들 넣어주기
+    handleToggleEdit = () => { 
+        
         const { info, onUpdate } = this.props;
-        if (this.state.editing) {
-            onUpdate(info.id, {
+        if (this.state.editing) { // true -> false (적용버튼 눌렀을 때)
+        onUpdate(info.id, {
                 name: this.state.name,
                 phone: this.state.phone,
             });
-        } else {
+        /* props로 받은 handleUpdate함수 실행 :
+        info의 id값이 information배열의 id 값과 같을 때,
+        info의 id값과 state의 name과 phone값을 App.js의 state에 넣어 줌.
+        */
+        } else { // false -> true (수정버튼 눌렀을 때)
             this.setState({
                 name: info.name,
                 phone: info.phone,
             });
+        // state에 info의 name과 phone 값 넣어 줌.
         } 
         
         this.setState({
-            editing: !this.state.editing,
+            editing: !this.state.editing, // editing 값 반전 시킴.
         }) 
     }
 
     handleChange = (e) => {
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value //input 박스에서 받아 온 값들을 확인해서 state의 해당 키의 value로 넣어 줌.
         })
     }
 
@@ -52,8 +62,11 @@ class PhoneInfo extends Component {
             margin: '8px',
         };  
 
+        console.log(name);
+
         return (
             <div style = {style}> 
+             { JSON.stringify(this.state) }
                 {
                     editing ? (
                         <Fragment>
