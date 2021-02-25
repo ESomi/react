@@ -10,7 +10,8 @@ class ContactDetails extends Component {
         const blank = (<div>Not Selected</div>);
         return (
             <div>
-            {this.props.isSelected ? details : blank}
+                <h2>Details</h2>
+                {this.props.isSelected ? details : blank}
             </div>
         );
     }

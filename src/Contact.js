@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ContactDetails from './ContactDetails';
 import ContactInfo from './ContactInfo'
+import update from 'react-addons-update'
+import ContactCreate from './ContactCreate';
 
 class Contact extends React.Component {
     constructor(props){
@@ -18,6 +20,9 @@ class Contact extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleClick = this.handleClick.bind(this);
 
+      this.handleCreate = this.handleCreate.bind(this);
+      this.handleRemove = this.handleRemove.bind(this);
+      this.handleEdit = this.handleEdit.bind(this);
     }
     
     handleClick(key) {
@@ -33,6 +38,41 @@ class Contact extends React.Component {
         keyword: e.target.value
       });
     }
+
+    handleCreate(contact) {
+      this.setState({
+        contactData: update(
+          this.state.contactData,
+          { $push: [contact] }
+        )
+      });
+    }
+
+    handleRemove() {
+      this.setState({
+        contactData: update(
+          this.state.contactData,
+          { $splice: [[this.state.selectedKey, 1]]}
+        ),
+        selectedKey: -1
+      })
+    }
+
+    handleEdit(name, phone) {
+      this.setState({
+        contactData: update(
+          this.state.contactData,
+          {
+            [this.state.selectedKey]: {
+              name: { $set: name },
+              phone: {$set: phone }
+            }
+          }
+        )
+      })
+    }
+
+
     render() { 
       // 컴포넌트 매핑 
       const mapToComponent = (data) => {
@@ -47,7 +87,9 @@ class Contact extends React.Component {
         )  
         //3. map 결과 리턴
         return data.map((contact, i) => {  
-          //contct라는 props에 값을 주고, contact 배열의 인덱스 순으로 키값을 줌.
+          //contct라는 props에 값을 주고,
+          //contact 배열의 인덱스 순으로 key값을 설정함.
+          //클릭하면 설정된 key값이 state의 selectedKey 값으로 세팅됨.
           return (<ContactInfo
                     contact = {contact}
                     key = {i}
@@ -74,8 +116,9 @@ class Contact extends React.Component {
             { mapToComponent(this.state.contactData)}  
           </div>
           <ContactDetails 
-            isSelected = {this.state.selectedKey != -1} //조건절
+            isSelected = {this.state.selectedKey !== -1} //클릭을 했다면
             contact = {this.state.contactData[this.state.selectedKey]} /> 
+          <ContactCreate onCreate = { this.handleCreate }/>
         </div>
       );  
     }  
