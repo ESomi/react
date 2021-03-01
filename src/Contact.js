@@ -49,6 +49,9 @@ class Contact extends React.Component {
     }
 
     handleRemove() {
+      if(this.state.selectedKey == -1) {
+        return;
+      }
       this.setState({
         contactData: update(
           this.state.contactData,
@@ -65,7 +68,7 @@ class Contact extends React.Component {
           {
             [this.state.selectedKey]: {
               name: { $set: name },
-              phone: {$set: phone }
+              phone: { $set: phone }
             }
           }
         )
@@ -117,7 +120,10 @@ class Contact extends React.Component {
           </div>
           <ContactDetails 
             isSelected = {this.state.selectedKey !== -1} //클릭을 했다면
-            contact = {this.state.contactData[this.state.selectedKey]} /> 
+            contact = {this.state.contactData[this.state.selectedKey]} 
+            onRemove = {this.handleRemove}
+            onEdit = {this.handleEdit}
+          />
           <ContactCreate onCreate = { this.handleCreate }/>
         </div>
       );  
