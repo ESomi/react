@@ -11,7 +11,7 @@ class ContactDetails extends Component {
         this.handleToggle = this.handleToggle.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
-
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     handleChange(e) {
@@ -25,7 +25,9 @@ class ContactDetails extends Component {
     }
 
     handleToggle() {
-        //isEdit: true일때 (Edit버튼 클릭 시)
+        if(!this.props.isSelected) alert('Select and edit')
+        
+        // isEdit: true일때 (Edit버튼 클릭 시)
         if(!this.state.isEdit) { 
             this.setState({
                 name: this.props.contact.name,
@@ -40,7 +42,12 @@ class ContactDetails extends Component {
         this.setState({
             isEdit : !this.state.isEdit
         });
-        console.log(this.state.isEdit);
+    }
+
+    handleKeyPress(e) {
+        if(e.charCode === 13) {
+            this.handleToggle();
+        }
     }
 
     render() {
@@ -54,10 +61,23 @@ class ContactDetails extends Component {
         const edit = (
             <div>
                 <p>
-                    <input type="text" name="name" placeholder="name" value={this.state.name} onChange={this.handleChange}></input>     
+                    <input 
+                        type="text" 
+                        name="name" 
+                        placeholder="name" 
+                        value={this.state.name} 
+                        onChange={this.handleChange}>
+                    </input>     
                 </p>
                 <p>
-                    <input type="text" name="phone" placeholder="phone" value={this.state.phone} onChange={this.handleChange}></input>
+                    <input 
+                        type="text" 
+                        name="phone" 
+                        placeholder="phone" 
+                        value={this.state.phone} 
+                        onChange={this.handleChange}
+                        onKeyPress={this.handleKeyPress}>
+                    </input>
                 </p>
             </div>
         );
@@ -70,7 +90,7 @@ class ContactDetails extends Component {
                 <p>
                     <button onClick={this.handleToggle}> { this.state.isEdit ? 'OK' : 'Edit' }</button>
                     <button onClick={this.props.onRemove}>Remove</button>
-                </p>
+                </p>  
                 
             </div>
         );
@@ -81,7 +101,10 @@ ContactDetails.defaultProps = {
     contact: {
         name: '',
         phone: ''
-    }
+    },
+    onRemove: () => { console.error('onRemove not defined'); },
+    onEdit: () => { console.error('onEdit not defined'); }
 }
+
 
 export default ContactDetails;

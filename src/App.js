@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Contact from './Contact';
+//import ContactLight from './ContactLight';
 
 class App extends Component {
     render() {
