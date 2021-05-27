@@ -24,21 +24,46 @@ app.get('/', function (req, res) {
             res.end();
         }
     })
-});
+})
 
-io.on('connect', (socket) => {
-    console.log('유저 접속 됨');
 
-    socket.on('send', (data) => {
-        console.log('전달된 메시지:', data.msg)
-    });
 
+// server의 io객체는 'connetion' 이벤트 발생시 콜백으로 client와 통신하는데 쓰이는 socket을 인자로 받게됨. 이때 콜백함수는 그저 'connection'에 대한 단순한 콜백이라기보단 그 클라이언트와 계속해서 통신하기 위한 전체의 과정을 포함.
+io.on('connection', (socket) => {
+    
+    // 접속 후 이름 알림
+    socket.on('newUser', (name) => {
+        // socket.on('newUser', name => {})은 사용자가 접속할 때마다 발생하는 이벤트 
+        // 콜백함수의 인자 name은 클라이언트 측에서 서버로 전달하는 값
+        console.log(name + '님이 접속하였습니다.');
+        
+        socket.name = name;
+        
+        // 주의! 여기서 emit 은 socket과 연결된 내부 함수의 메서드가 아닌 처음에 서버와 연결된 소켓 변수(여기서는 io)에서 해주어야한다*/
+        io.emit('update', {type: 'connect', name: 'SERVER', messge: name + '님이 접속하였습니다.' });
+    })
+
+    // 전송한 메시지 받기
+    socket.on('message', (data) => {
+        data.name = socket.name;
+        
+        console.log(data);
+
+        socket.broadcast.emit('update', data);
+    })
+
+    // 접속 종료
     socket.on('disconnect', () => {
-        console.log('접속 종료')
-    });
-});
+        console.log(socket.name + '님이 나가셨습니다.');
 
-server.listen(port, () => console.log(`Listening on port ${port}`)); 
+        socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + '님이 나가셨습니다.' });
+    })
+    
+})
+
+server.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+})
 // 서버 생성시 콘솔에 출력되는 문구
 
 
