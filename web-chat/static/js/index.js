@@ -2,7 +2,7 @@ var socket = io();
 
 // 접속 되었을 때 실행
 socket.on('connect', () => {
-    var name = prompt('반값습니다!', '');
+    var name = prompt('반갑습니다!', '');
 
     if(!name) {
         name = '익명';
