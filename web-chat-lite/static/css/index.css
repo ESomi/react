@@ -1,4 +1,8 @@
 /* 메인 */
+body {
+    overflow-y: hidden;
+}
+
 #main {
     margin: auto;
     margin-top: 100px;
@@ -40,7 +44,7 @@ margin-top: 10px;
 .disconnect {
 width: 90%;
 margin: auto;
-background-color: indianred;
+background-color: #ccc;
 text-align: center;
 margin-top: 10px;
 }
@@ -48,7 +52,7 @@ margin-top: 10px;
 /* 내가 보낸 메시지 */
 .me {
 width: 40%;
-margin-left: 60%;
+margin-left: 50%;
 background-color: darkorange;
 color: white;   
 border-radius: 10px;
@@ -59,7 +63,7 @@ padding: 10px;
 /* 상대방이 보낸 메시지 */
 .other {
 width: 40%;
-margin-right: 60%;
+margin-left: 5%;
 background-color: white;
 border-radius: 10px;
 margin-top: 10px;

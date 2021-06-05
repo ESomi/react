@@ -42,28 +42,38 @@ socket.on('update', (data) => {
     chat.appendChild(message)
 })
 
-// 메시지 전송 함수
-function send() {
-    // 입력되어 있는 데이터 가져오기
-    var message = document.getElementById('chat-input').value;
+// input의 keyup 이벤트와 button의 click 이벤트 처리
+var input = document.getElementById("chat-input");
+var button = document.getElementById("send-button");
 
-    // 데이터 공백으로 변경
-    document.getElementById('chat-input').value = '';
-    
-    // 내가 전송할 메시지 클라이언트에게 표시
-    var chat = document.getElementById('chat')
-    var msg = document.createElement('div')
-    var node = document.createTextNode(message)
-    msg.classList.add('me')
-    msg.appendChild(node)
-    chat.appendChild(msg)
+button.addEventListener('click',
+    function() {
+        // 입력되어 있는 데이터 가져오기
+        var message = document.getElementById('chat-input').value;
 
+        // 데이터 공백으로 변경
+        document.getElementById('chat-input').value = '';
+        
+        // 내가 전송할 메시지 클라이언트에게 표시
+        var chat = document.getElementById('chat')
+        var msg = document.createElement('div')
+        var node = document.createTextNode(message)
+        msg.classList.add('me')
+        msg.appendChild(node)
+        chat.appendChild(msg)
+        
+        // 데이터와 함께 서버로 send이벤트 전달    
+        socket.emit('message', {type: 'message', message: message});                        
+    }
+);
 
-    // 데이터와 함께 서버로 send이벤트 전달    
-    socket.emit('message', {type: 'message', message: message});    
-}
-
-
+input.addEventListener('keyup',
+    function(e) {
+        if(e.keyCode === 13 ) { 
+            e.preventDefault;
+            button.click();
+        }
+    });
 
 
 
