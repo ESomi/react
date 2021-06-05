@@ -73,7 +73,8 @@ input.addEventListener('keyup',
             e.preventDefault;
             button.click();
         }
-    });
+    }
+);
 
 
 
