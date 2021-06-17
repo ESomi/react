@@ -49,6 +49,9 @@ button.addEventListener('click',
         // 입력되어 있는 데이터 가져오기
         var inputValue = document.getElementById('chat-input').value;
 
+        if(inputValue == '' ) {
+            return
+        } else {
         // 데이터 공백으로 변경
         document.getElementById('chat-input').value = '';
         
@@ -61,7 +64,8 @@ button.addEventListener('click',
         chat.appendChild(msgContainerMe)
         
         // 데이터와 함께 서버로 messege이벤트 전달    
-        socket.emit('message', {type: 'message', message: inputValue});                        
+        socket.emit('message', {type: 'message', message: inputValue});
+        }           
     }
 );
 
