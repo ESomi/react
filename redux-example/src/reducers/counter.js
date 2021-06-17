@@ -4,9 +4,7 @@ const initialState = {
     number: 0
 };
 
-export default function counter(state=initialState, action) {
-//state가 undefined일 때는 initialState 반환하기
-    /* ... */
+export default function counter(state=initialState, action) { //state가 undefined일 때는 initialState 반환하기
     switch(action.type) {
         case types.INCREMENT:
             return {

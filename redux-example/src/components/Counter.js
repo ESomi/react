@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Value from './Value';
 import Control from './Control';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
 import * as actions from '../actions';
 
 class Counter extends Component { 
@@ -11,32 +11,32 @@ class Counter extends Component {
         this.setRandomColor = this.setRandomColor.bind(this);
     }
 
-setRandomColor() {
-    const color = [
-        Math.floor(Math.random()*55 + 200),
-        Math.floor(Math.random()*55 + 200),
-        Math.floor(Math.random()*55 + 200)
-    ];
+    setRandomColor() {
+        const color = [
+            Math.floor(Math.random()*55 + 200),
+            Math.floor(Math.random()*55 + 200),
+            Math.floor(Math.random()*55 + 200)
+        ];
 
-    this.props.handleSetColor(color);
-}
+        this.props.handleSetColor(color);
+    }
         
 
-render() {
+    render() {
 
-    const color = this.props.color;
-    const style = {
-        background: `rgb(${color[0]},${color[1]},${color[2]})`
-    };
+        const color = this.props.color;
+        const style = {
+            background: `rgb(${color[0]},${color[1]},${color[2]})`
+        };
 
-    return(
-        <div style={style}>
-                <Value number={this.props.number}/>
-                <Control 
-                    onPlus={this.props.handleIncrement}
-                    onSubtract={this.props.handleDecrement}
-                    onRadomizeColor={this.setRandomColor}
-                />
+        return(
+            <div style={style}>
+                    <Value number={this.props.number}/>
+                    <Control 
+                        onPlus={this.props.handleIncrement}
+                        onSubtract={this.props.handleDecrement}
+                        onRadomizeColor={this.setRandomColor}
+                    />
             </div>
         );
     }
@@ -51,7 +51,7 @@ const mapStateProps = (state) => {
 
 const mapDispatchProps = (dispatch) => {
     return {
-        handleIncrement: () => { dispatch(actions.increment())}, //types: "INCREMENT"를 dispatch한 함수를 리턴함.
+        handleIncrement: () => { dispatch(actions.increment())}, //types: "INCREMENT"를 dispatch한 함수를 리턴함. 
         handleDecrement: () => { dispatch(actions.decrement())}, ////types: "DECREMENT"를 dispatch한 함수를 리턴함.
         handleSetColor: (color) => { dispatch(actions.setColor(color))} //type: types.SET_COLOR, color: 파라미터의 color를 dispatch한 함수를 리턴함.
     }

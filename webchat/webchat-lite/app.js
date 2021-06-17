@@ -54,9 +54,9 @@ io.on('connection', (socket) => {
 
     // 접속 종료
     socket.on('disconnect', () => {
-        console.log(socket.name + '님이 나가셨습니다.');
+        console.log(socket.name + '님이 나갔습니다.');
 
-        socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + '님이 나가셨습니다.' });
+        socket.broadcast.emit('update', {type: 'disconnect', name: 'SERVER', message: socket.name + '님이 나갔습니다.' });
     })
     
 })
