@@ -1,19 +1,45 @@
 const express = require('express');
-const socket = require('socket.io');
-const cors = require('cors');
 require('dotenv').config();
-
-const app = express(); 
-app.use(cors()); 
-const PORT = process.env.PORT || 8005; 
-const server = app.listen(PORT, () => {
-  console.log(`Listening on port ::${PORT}`);
+const cors = require('cors');
+const path = require('path');
+const app = express();
+const socket = require('socket.io');
+const port = 3000;
+const server = app.listen(port, () => {
+    console.log(`Waiting for connections on ::${port}`);
 });
 
+app.use(cors());
+
 // Static Files
-if(process.env.NODE_ENV==="production") {            
+if(process.env.NODE_ENV==="production") {
     app.use(express.static(path.join(__dirname,'client/build')));
     app.get("*", (req,res) => {
-      res.sendFile(path.join(__dirname,"client/build","index.html"));
+        res.sendFile(path.join(__dirname,"client/build","index.html"));
     });
-  }
+}
+
+// Ready the input/output 
+const io = socket(server);
+
+io.on('connection', (socket) => {
+    console.log(`connection established via id: ${socket.id}`);
+    socket.on('online', () => {
+        console.log('A new user has joined the chat');
+        io.sockets.emit('joined',{
+            'success':true,
+        });
+    });
+
+    socket.on('chat', (data) => {
+        // console.log('initiated',data);
+        io.sockets.emit('chat', data);
+    });
+
+    socket.on('typing', (data) => {
+        socket.broadcast.emit('typing',data);
+    });
+    socket.on('no_typing', (data) => {
+        socket.broadcast.emit('no_typing',data);
+    });
+});
