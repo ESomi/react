@@ -3,7 +3,7 @@ require('dotenv').config();
 const cors = require('cors');
 const path = require('path');
 const app = express();
-const socket = require('socket.io');
+const socket = require('socket.io')
 const port = 3000;
 const server = app.listen(port, () => {
     console.log(`Waiting for connections on ::${port}`);
@@ -20,7 +20,11 @@ if(process.env.NODE_ENV==="production") {
 }
 
 // Ready the input/output 
-const io = socket(server);
+const io = socket(server, {
+    cors: {
+      origin: '*',
+    }
+  });
 
 io.on('connection', (socket) => {
     console.log(`connection established via id: ${socket.id}`);
