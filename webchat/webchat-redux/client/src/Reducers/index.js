@@ -2,27 +2,27 @@ import { combineReducers } from 'redux';
 import * as types from '../Actions/ActionTypes'
 
 const initState = {
+    connected:false,
     messages:[],
     typist:null,
-    joined:false,
 };
 const user = (state=initState,action) => {
     switch(action.type) {
-        case types.APPEND_MESSAGE:
-            const temp = [...state.messages,action.payload];
+        case types.CHECK_CONNECTION:     
             return {
                 ...state,
-                messages:temp,
+                connected:action.loaded.success,
             };
         case types.IS_TYPING:
             return {
                 ...state,
-                typist:action.payload.handle,
+                typist:action.loaded.name,
             };
-        case types.JUST_JOINED:
+        case types.APPEND_MESSAGE:
+            const temp = [...state.messages,action.loaded];
             return {
                 ...state,
-                joined:action.payload.success,
+                messages:temp,
             };
         case types.NOT_TYPING:
             return {

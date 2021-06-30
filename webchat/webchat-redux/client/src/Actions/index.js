@@ -1,10 +1,10 @@
 import * as types from './ActionTypes';
 
-export const appendMessage = (data) => {
+export const checkConnection = (bool) => {
     return {
-        type:types.APPEND_MESSAGE,
-        payload: {
-            ...data,
+        type: types.CHECK_CONNECTION,
+        loaded: {
+            success:bool,
         },
     };
 };
@@ -13,25 +13,27 @@ export const appendMessage = (data) => {
 export const isTyping = (data) => {
     return {
         type:types.IS_TYPING,
-        payload: {
+        loaded: {
             ...data,
         },
     };
 };
 
-export const justJoined = (bool) => {
+
+export const appendMessage = (data) => {
     return {
-        type: types.JUST_JOINED,
-        payload: {
-            success:bool,
+        type:types.APPEND_MESSAGE,
+        loaded: {
+            ...data,
         },
     };
 };
 
+
 export const notTyping = (data) => {
     return {
         type: types.NOT_TYPING,
-        payload: {
+        loaded: {
             ...data,
         },
     };

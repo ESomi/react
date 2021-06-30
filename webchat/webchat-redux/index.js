@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const socket = require('socket.io')
-const port = 3000;
+const port = 9000;
 const server = app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
@@ -16,11 +16,6 @@ if(process.env.NODE_ENV==="production") {
     app.use(express.static(path.join(__dirname,'client/build')));
     app.get("*", (req,res) => {
         res.sendFile(path.join(__dirname,"client/build","index.html"));
-    });
-} else {
-    app.use(express.static(path.join(__dirname,'client/src')));
-    app.get("*", (req,res) => {
-        res.sendFile(path.join(__dirname,"client/src","test.html"));
     });
 }
 
@@ -36,18 +31,18 @@ io.on('connection', (socket) => {
     console.log(`연결된 SOCKET ID: ${socket.id}`);
 
     // (수신, 전송)
-    // ONLINE, JOINED
+    // ONLINE, CONNECTED
     socket.on('online', () => {
-        console.log('새 유저 입장');
-        io.sockets.emit('joined',{
+        io.sockets.emit('connected',{
             'success':true,
         });
     });
 
-    // CHAT, CHAT
-    socket.on('chat', (data) => {
-        console.log('대화 시작',data);
-        io.sockets.emit('chat', data);
+    //SETNAME, CHAT
+    socket.on('setName', (name) => {  
+        socket.name = name;
+        console.log('[' + socket.id + ']' + name + '님이 입장하였습니다.');
+        io.sockets.emit('chat', {message: name + '님이 입장하였습니다.' });
     });
 
     // TYPING, TYPING
@@ -55,8 +50,22 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('typing',data);
     });
 
+    // CHAT, CHAT
+    socket.on('chat', (data) => {  
+        // data.name = socket.name;
+        console.log(data);
+        io.sockets.emit('chat',data);
+    });
+
     // NO_TYPING, NO_TYPING
     socket.on('no_typing', (data) => {     
         socket.broadcast.emit('no_typing',data);
     });
+
+    // (DISCONNECT), CHAT 
+    socket.on('disconnect', () => {
+        console.log('[' + socket.id + ']' + socket.name + '님이 나갔습니다.');
+        socket.broadcast.emit('chat', { message: socket.name + '님이 나갔습니다.' });
+    })
+
 });
