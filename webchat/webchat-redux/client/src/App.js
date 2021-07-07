@@ -30,12 +30,20 @@ function App(props) {
 	const [textarea,setTextarea] = useState('');
 
 	const [error,setError] = useState(null);
+	const scrollToBottom = () => {
+		window.scrollTo(0,document.body.scrollHeight);
+	}
 
-	// ComponentDidMount
+	// 렌더링 후 한 번 실행(ComponentDidMount)
 	useEffect(() => {
 		// ONLINE (전송)
 		socket.emit('online');
 	},[]);
+
+	// 렌더링 후 페이지 최하단으로 스크롤바 유지
+	useEffect(() => {
+		scrollToBottom();
+	});
 
 	// SOCKET EVENT 함수 (전송)
 	const handleSetName = (name) => {
@@ -78,8 +86,8 @@ function App(props) {
 		socket.emit('no_typing', {
 			'name':name,
 		});
-	};																												
-	
+	};	
+
 
 	return (
 		<div className="App">
@@ -125,7 +133,7 @@ function App(props) {
 								</div>
 							);
 						}
-					})}
+					})}	
 					{props.typist ?
 					<div className="isTypingRow">
 						<div className="nameOfRow"><strong>{props.typist}</strong></div>
