@@ -7,8 +7,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-console.log("Project Layout with reference to https://medium.com/@rishabhanand42 blog" )
-
 ReactDOM.render(
   <Provider store={store}>
       <App />

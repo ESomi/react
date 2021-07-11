@@ -24,10 +24,6 @@
   color: white;
 }
 
-/* #message h1, h2, h3{
-  color: #5c5c5c;
-} */
-
 fieldset {
   display: flex;
   justify-content: center;
@@ -41,11 +37,15 @@ fieldset div {
   display: flex;
 }
 
+h3 {
+  color: #5c5c5c;
+  font-weight: 400;
+}
+
 label {
   color: white;
   margin-right: 0.5rem;
 }
-
 
 input[type="text" i] {
   height: 1.2rem;
